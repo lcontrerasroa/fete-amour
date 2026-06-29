@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Acces : Ferme du Domaine, Broualan (35)</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<style>
+  :root{
+    --vert:#2e7d32; --bleu:#1565c0; --gris:#555; --encre:#1a1a1a;
+    --panneau:rgba(255,255,255,.92);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--encre)}
+  #map{position:absolute;inset:0;background:#f4f3ee}
+
+  /* Panneau titre */
+  .carte-titre{
+    position:absolute;z-index:1000;top:14px;left:14px;
+    background:var(--panneau);backdrop-filter:blur(2px);
+    border:1px solid rgba(0,0,0,.1);border-radius:12px;
+    padding:12px 14px;max-width:280px;box-shadow:0 4px 18px rgba(0,0,0,.12)
+  }
+  .carte-titre h1{margin:0 0 4px;font-size:16px;letter-spacing:.2px}
+  .carte-titre p{margin:0;font-size:12.5px;line-height:1.45;color:#444}
+  .carte-titre .pin{color:var(--vert);font-weight:700}
+
+  /* Legende */
+  .legende{
+    position:absolute;z-index:1000;bottom:24px;left:14px;
+    background:var(--panneau);border:1px solid rgba(0,0,0,.1);border-radius:12px;
+    padding:10px 12px;font-size:12.5px;box-shadow:0 4px 18px rgba(0,0,0,.12)
+  }
+  .legende .row{display:flex;align-items:center;gap:8px;margin:3px 0}
+  .legende .dot{width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.15)}
+  .legende .star{color:var(--vert);font-size:16px;line-height:1}
+
+  /* Reglage opacite du fond */
+  .reglage{
+    position:absolute;z-index:1000;top:14px;right:14px;
+    background:var(--panneau);border:1px solid rgba(0,0,0,.1);border-radius:12px;
+    padding:8px 12px;font-size:12px;box-shadow:0 4px 18px rgba(0,0,0,.12);
+    display:flex;align-items:center;gap:8px
+  }
+  .reglage input{width:96px}
+
+  /* Marqueurs (divIcon) */
+  .mk{transform:translate(-50%,-50%)}
+  .mk .pt{border-radius:50%;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35)}
+  .mk.ferme .pt{width:0;height:0;border:none;box-shadow:none;
+    font-size:30px;line-height:1;color:var(--vert);
+    text-shadow:0 0 3px #fff,0 0 3px #fff,0 1px 4px rgba(0,0,0,.35)}
+  .etiq{
+    position:absolute;left:50%;transform:translateX(-50%);
+    white-space:nowrap;font-weight:700;font-size:12.5px;
+    background:#fff;border-radius:8px;padding:3px 8px;
+    box-shadow:0 2px 8px rgba(0,0,0,.18)
+  }
+  .etiq.sous{top:18px}
+  .etiq.haut{bottom:18px}
+  .etiq.ferme{color:var(--vert);border:2px solid var(--vert);font-size:13.5px;top:24px}
+  .etiq.gare{color:var(--bleu);border:1px solid var(--bleu)}
+  .etiq.trans{color:var(--gris);border:1px solid var(--gris);font-weight:600}
+
+  .dist{
+    background:#fff;border-radius:6px;padding:1px 6px;font-size:11px;font-weight:600;
+    box-shadow:0 1px 5px rgba(0,0,0,.2)
+  }
+  .leaflet-container{background:#f4f3ee}
+  @media(max-width:480px){
+    .carte-titre{max-width:62vw}
+    .reglage{display:none}
+  }
+</style>
+</head>
+<body>
+<div id="map"></div>
+
+<div class="carte-titre">
+  <h1>Ferme du Domaine</h1>
+  <p><span class="pin">Broualan (35120)</span><br>
+  Reperes : gare TER de Combourg et Trans-la-Foret.<br>
+  Distances a vol d'oiseau.</p>
+</div>
+
+<div class="reglage">
+  Fond
+  <input id="opa" type="range" min="20" max="100" value="55">
+</div>
+
+<div class="legende">
+  <div class="row"><span class="star">&#9733;</span> Ferme du Domaine</div>
+  <div class="row"><span class="dot" style="background:#1565c0"></span> Gare TER de Combourg</div>
+  <div class="row"><span class="dot" style="background:#555"></span> Trans-la-Foret</div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+const FERME = [48.464834, -1.689112];
+const GARE  = [48.416100, -1.727822];
+const TRANS = [48.497298, -1.588062];
+
+const map = L.map('map', {zoomControl:true, scrollWheelZoom:true});
+
+const fond = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom:19, opacity:0.55,
+  attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+
+document.getElementById('opa').addEventListener('input', e=>{
+  fond.setOpacity(e.target.value/100);
+});
+
+L.control.scale({imperial:false, position:'bottomright'}).addTo(map);
+
+// Liaisons + distances
+function km(a,b){
+  const R=6371, t=Math.PI/180;
+  const dLat=(b[0]-a[0])*t, dLon=(b[1]-a[1])*t;
+  const h=Math.sin(dLat/2)**2+Math.cos(a[0]*t)*Math.cos(b[0]*t)*Math.sin(dLon/2)**2;
+  return (2*R*Math.asin(Math.sqrt(h))).toFixed(1);
+}
+function lien(a,b,couleur){
+  L.polyline([a,b],{color:couleur,weight:2,dashArray:'7 7',opacity:.8}).addTo(map);
+  const mid=[(a[0]+b[0])/2,(a[1]+b[1])/2];
+  L.marker(mid,{interactive:false,icon:L.divIcon({className:'',
+    html:`<span class="dist" style="color:${couleur}">${km(a,b)} km</span>`,
+    iconSize:[1,1]})}).addTo(map);
+}
+lien(FERME,GARE,'#1565c0');
+lien(FERME,TRANS,'#555');
+
+// Marqueurs
+function repere(pos,html,zoffset=0){
+  L.marker(pos,{icon:L.divIcon({className:'',html,iconSize:[1,1]}),
+    zIndexOffset:zoffset}).addTo(map);
+}
+repere(FERME,
+  `<div class="mk ferme"><div class="pt">&#9733;</div>
+   <div class="etiq ferme">Ferme du Domaine</div></div>`, 1000);
+repere(GARE,
+  `<div class="mk"><div class="pt" style="width:16px;height:16px;background:#1565c0"></div>
+   <div class="etiq gare sous">Gare TER Combourg</div></div>`);
+repere(TRANS,
+  `<div class="mk"><div class="pt" style="width:14px;height:14px;background:#555"></div>
+   <div class="etiq trans haut">Trans-la-Foret</div></div>`);
+
+map.fitBounds(L.latLngBounds([FERME,GARE,TRANS]).pad(0.35));
+</script>
+</body>
+</html>
