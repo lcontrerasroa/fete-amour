@@ -38,7 +38,7 @@
 
   /* Reglage opacite du fond */
   .reglage{
-    position:absolute;z-index:1000;top:14px;right:14px;
+    position:absolute;z-index:1000;bottom:44px;right:14px;
     background:var(--panneau);border:1px solid rgba(0,0,0,.1);border-radius:12px;
     padding:8px 12px;font-size:12px;box-shadow:0 4px 18px rgba(0,0,0,.12);
     display:flex;align-items:center;gap:8px
@@ -104,14 +104,36 @@ const TRANS = [48.497298, -1.588062];
 
 const map = L.map('map', {zoomControl:true, scrollWheelZoom:true});
 
-const fond = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-  subdomains:'abcd', maxZoom:20, opacity:0.55,
-  attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
-}).addTo(map);
+const osmAttr   = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
+const cartoAttr = osmAttr + ' &copy; <a href="https://carto.com/attributions">CARTO</a>';
+const esriAttr  = 'Tuiles &copy; <a href="https://www.esri.com">Esri</a>';
 
-document.getElementById('opa').addEventListener('input', e=>{
-  fond.setOpacity(e.target.value/100);
-});
+const fonds = {
+  "CARTO Voyager": L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+    {subdomains:'abcd', maxZoom:20, attribution:cartoAttr}),
+  "CARTO clair (Positron)": L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+    {subdomains:'abcd', maxZoom:20, attribution:cartoAttr}),
+  "CARTO sombre": L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+    {subdomains:'abcd', maxZoom:20, attribution:cartoAttr}),
+  "Relief (OpenTopoMap)": L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+    {subdomains:'abc', maxZoom:17, attribution: osmAttr + ', SRTM | &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (CC-BY-SA)'}),
+  "OSM Humanitaire": L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
+    {subdomains:'abc', maxZoom:19, attribution: osmAttr + ', tuiles HOT'}),
+  "Satellite (Esri)": L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    {maxZoom:19, attribution: esriAttr + ', Maxar, Earthstar Geographics'}),
+  "Topo (Esri)": L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
+    {maxZoom:19, attribution: esriAttr})
+};
+
+let actif = fonds["Relief (OpenTopoMap)"];
+actif.setOpacity(0.55).addTo(map);
+
+L.control.layers(fonds, null, {position:'topright', collapsed:false}).addTo(map);
+
+const opa = document.getElementById('opa');
+function appliqueOpacite(){ actif.setOpacity(opa.value/100); }
+opa.addEventListener('input', appliqueOpacite);
+map.on('baselayerchange', e=>{ actif = e.layer; appliqueOpacite(); });
 
 L.control.scale({imperial:false, position:'bottomright'}).addTo(map);
 
