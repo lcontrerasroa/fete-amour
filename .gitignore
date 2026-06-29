@@ -1,0 +1,9 @@
+# Données privées des invité·e·s — NE PAS publier
+Participants-es - Fête de l'Amour.xlsx
+*.xlsx
+
+# Vidéo source du GIF (non nécessaire au site, fichier personnel)
+perro-pascal.mp4
+
+# Config / outils locaux
+.claude/
