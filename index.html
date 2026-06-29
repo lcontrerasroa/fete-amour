@@ -141,6 +141,21 @@
   table.invites tbody tr:nth-child(odd){background:#fff5fa}
   table.invites tbody tr:hover{background:#ffe3f1}
 
+  /* Livre d'or */
+  #gb-form{display:flex;flex-direction:column;gap:8px;max-width:480px;margin:0 auto 16px}
+  #gb-form input,#gb-form textarea{font-family:inherit;font-size:15px;padding:9px 11px;
+    border:3px inset #ffd6ec;border-radius:8px;background:#fffdf7;color:var(--encre)}
+  #gb-form textarea{resize:vertical}
+  #gb-form .btn{align-self:center}
+  .gb-hp{position:absolute!important;left:-9999px;width:1px;height:1px;opacity:0}
+  .gb-status{font-size:14px;min-height:1.2em;margin:2px 0;color:var(--violet);font-weight:bold}
+  .gb-list{display:flex;flex-direction:column;gap:10px;max-width:560px;margin:0 auto;text-align:left}
+  .gb-entry{background:#fff;border:3px groove var(--rose);border-radius:10px;padding:10px 12px;
+    box-shadow:3px 3px 0 rgba(255,51,153,.2)}
+  .gb-m{margin:0 0 4px;font-size:15.5px;white-space:pre-wrap;word-break:break-word}
+  .gb-meta{margin:0;font-size:13px;color:var(--rose);font-weight:bold;text-align:right}
+  .gb-loading{color:#777;font-style:italic}
+
   .compteur{
     display:inline-block;background:#000;color:#0f0;font-family:"Courier New",monospace;
     font-weight:bold;letter-spacing:3px;padding:4px 10px;border:2px solid #0f0;border-radius:4px;
@@ -186,7 +201,8 @@
       <a href="#programme">&#127881; Programme</a> |
       <a href="#acces">&#128663; Acc&egrave;s</a> |
       <a href="#hebergement">&#127968; H&eacute;bergement</a> |
-      <a href="#invites">&#127881; Qui vient ?</a>
+      <a href="#invites">&#127881; Qui vient ?</a> |
+      <a href="#livredor">&#9999;&#65039; Livre d'or</a>
     </nav>
 
     <div>
@@ -323,6 +339,20 @@
     </div>
   </section>
 
+  <!-- ===================== LIVRE D'OR ===================== -->
+  <section id="livredor" class="panneau" style="border-color:var(--or);box-shadow:6px 6px 0 rgba(255,204,0,.4)">
+    <h2 style="color:var(--violet)">&#9999;&#65039; Signe notre livre d'or ! &#9999;&#65039;</h2>
+    <p style="font-size:16px">Laisse-nous un petit mot doux, une blague ou un v&oelig;u&hellip; &#128156;</p>
+    <form id="gb-form" autocomplete="off">
+      <input id="gb-name" type="text" maxlength="40" placeholder="Ton pr&eacute;nom" required>
+      <textarea id="gb-msg" maxlength="500" rows="3" placeholder="Ton message&hellip;" required></textarea>
+      <input id="gb-website" class="gb-hp" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="btn or" type="submit">&#128156; Envoyer mon mot</button>
+      <p id="gb-status" class="gb-status"></p>
+    </form>
+    <div id="gb-list" class="gb-list"><p class="gb-loading">Chargement des messages&hellip;</p></div>
+  </section>
+
   <div class="ruban"></div>
 
   <div style="margin:10px 0 0">
@@ -357,6 +387,68 @@
     var total=base+n;
     document.getElementById('compteur').textContent=String(total).padStart(8,'0');
   })();
+</script>
+
+<script>
+  // ===== Livre d'or (Google Apps Script) =====
+  // Colle ici l'URL de ton application web Apps Script (se termine par /exec) :
+  const GUESTBOOK_URL = "https://script.google.com/macros/s/REMPLACER_PAR_TON_URL/exec";
+
+  function gbCharger(){
+    if (GUESTBOOK_URL.indexOf('REMPLACER') !== -1){
+      document.getElementById('gb-list').innerHTML =
+        '<p class="gb-loading">Le livre d\'or arrive très bientôt ✨</p>';
+      return;
+    }
+    var cb = 'gbCb_' + Date.now();
+    var s = document.createElement('script');
+    window[cb] = function(entries){
+      var list = document.getElementById('gb-list');
+      if (!entries || !entries.length){
+        list.innerHTML = '<p class="gb-loading">Sois le premier &agrave; signer ! &#10024;</p>';
+      } else {
+        list.innerHTML = '';
+        entries.forEach(function(e){
+          var box = document.createElement('div'); box.className = 'gb-entry';
+          var m = document.createElement('p'); m.className = 'gb-m'; m.textContent = e.message;
+          var meta = document.createElement('p'); meta.className = 'gb-meta';
+          meta.textContent = '— ' + e.name + (e.date ? ' · ' + e.date : '');
+          box.appendChild(m); box.appendChild(meta); list.appendChild(box);
+        });
+      }
+      delete window[cb]; s.remove();
+    };
+    s.src = GUESTBOOK_URL + '?callback=' + cb + '&t=' + Date.now();
+    document.body.appendChild(s);
+  }
+
+  document.getElementById('gb-form').addEventListener('submit', function(ev){
+    ev.preventDefault();
+    var status = document.getElementById('gb-status');
+    if (GUESTBOOK_URL.indexOf('REMPLACER') !== -1){
+      status.textContent = "Livre d'or pas encore activé 🙈"; return;
+    }
+    var payload = {
+      name: document.getElementById('gb-name').value,
+      message: document.getElementById('gb-msg').value,
+      website: document.getElementById('gb-website').value  // piège anti-bot
+    };
+    status.textContent = 'Envoi…';
+    fetch(GUESTBOOK_URL, {
+      method:'POST', mode:'no-cors',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify(payload)
+    }).then(function(){
+      status.textContent = 'Merci ! Ton mot est enregistré 💖';
+      document.getElementById('gb-name').value = '';
+      document.getElementById('gb-msg').value = '';
+      setTimeout(gbCharger, 1500);
+    }).catch(function(){
+      status.textContent = "Oups, une erreur… réessaie 🙏";
+    });
+  });
+
+  gbCharger();
 </script>
 </body>
 </html>
