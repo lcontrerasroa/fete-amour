@@ -17,14 +17,21 @@
     margin:0;
     font-family:"Comic Sans MS","Comic Neue","Chalkboard SE",cursive;
     color:var(--encre);
-    /* fond a motif "tile" facon vieux web : coeurs + degrade */
-    background:
-      radial-gradient(circle at 10px 10px, rgba(255,51,153,.18) 3px, transparent 4px),
-      radial-gradient(circle at 30px 30px, rgba(153,51,255,.15) 3px, transparent 4px),
-      linear-gradient(135deg,#fff0f6 0%,#f3e8ff 50%,#fff7e6 100%);
-    background-size:40px 40px,40px 40px,100% 100%;
-    background-attachment:fixed;
+    background:#0e1f3a; /* repli avant chargement des images */
     text-align:center;
+  }
+
+  /* Decor Stardew Valley : alternance jour/nuit en fondu */
+  .bg{position:fixed;inset:0;z-index:-2;background-size:cover;
+      background-position:center bottom;image-rendering:pixelated;}
+  .bg-day{background-image:url('bg-day.jpg')}
+  .bg-night{background-image:url('bg-night.jpg');z-index:-1;opacity:0;
+      animation:jourNuit 60s ease-in-out infinite}
+  @keyframes jourNuit{
+    0%,35%{opacity:0} 50%,85%{opacity:1} 100%{opacity:0}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .bg-night{animation:none;opacity:0}
   }
 
   /* Bandeau marquee du haut */
@@ -54,6 +61,13 @@
     text-shadow:2px 2px 0 var(--or);
   }
 
+  /* En-tete : carte translucide pour rester lisible sur le decor */
+  .page > header{
+    background:rgba(255,253,247,.82);backdrop-filter:blur(2px);
+    border:4px ridge var(--rose);border-radius:14px;
+    box-shadow:6px 6px 0 rgba(255,51,153,.30);
+    padding:14px 16px;margin-top:18px;
+  }
   /* En-tete WordArt */
   header h1{
     font-size:40px;margin:18px 0 6px;line-height:1.15;
@@ -132,7 +146,11 @@
     font-weight:bold;letter-spacing:3px;padding:4px 10px;border:2px solid #0f0;border-radius:4px;
   }
 
-  footer{font-size:13px;color:#6a5a8a;padding:24px 10px 40px}
+  footer{font-size:13px;padding:18px 10px 40px;margin-top:10px}
+  footer p{display:inline-block;max-width:680px;margin:6px auto;padding:8px 14px;
+    background:rgba(20,15,40,.62);backdrop-filter:blur(2px);border-radius:10px;
+    color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.6)}
+  footer a{color:#ffd84d}
   .ruban{height:10px;background:repeating-linear-gradient(45deg,var(--rose) 0 12px,var(--or) 12px 24px,var(--violet) 24px 36px);
          border-radius:6px;margin:6px 0}
 
@@ -144,6 +162,9 @@
 </style>
 </head>
 <body>
+
+<div class="bg bg-day"></div>
+<div class="bg bg-night"></div>
 
 <div class="top-marquee">
   <marquee scrollamount="6">&#10084;&#65039; BIENVENUE A LA FETE DE L'AMOUR &#10084;&#65039; &nbsp; 14 ANS DE LEO &amp; ADRIEN &nbsp; &#10084;&#65039; &nbsp; A LA FERME DU DOMAINE, BROUALAN (35) &nbsp; &#10084;&#65039; &nbsp; ON A H&Acirc;TE DE VOUS VOIR !! &nbsp; &#10084;&#65039;</marquee>
@@ -309,7 +330,9 @@
     <img src="pascal.gif" alt="Perro Pascal fait la sieste"
          style="max-width:280px;width:70%;height:auto;image-rendering:auto;
                 filter:drop-shadow(3px 5px 4px rgba(0,0,0,.3))">
-    <p class="blink" style="color:var(--rose);font-weight:bold;font-size:16px;margin:4px 0">
+    <p class="blink" style="display:inline-block;color:#fff;font-weight:bold;font-size:16px;
+              margin:8px auto;padding:6px 14px;border-radius:10px;
+              background:rgba(20,15,40,.62);text-shadow:0 1px 2px rgba(0,0,0,.6)">
       &#128062; Chut&hellip; Perro Pascal garde la f&ecirc;te &#128062;
     </p>
   </div>
@@ -320,6 +343,7 @@
     </p>
     <p>Best viewed in Netscape Navigator @ 800&times;600 &#128421;&#65039;</p>
     <p>Fait avec amour (et un peu de Comic Sans) par Leo &amp; Adrien &#9733;<br>
+    D&eacute;cors pixel-art : <i>Stardew Valley</i> &copy; ConcernedApe (Eric Barone).<br>
     Fond de carte &copy; contributeurs OpenStreetMap (licence ODbL), tuiles &copy; CARTO.</p>
   </footer>
 
