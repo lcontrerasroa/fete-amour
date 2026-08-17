@@ -263,6 +263,8 @@ const DATA = [
    ]},
    {id:"c-sam29-jour", titre:"Samedi 29 — déroulé de la journée", quand:"Jour J", taches:[
      {id:"h14-soeurs", h:"14h", txt:"Arrivée des sœurs"},
+     {id:"navette-horaires", txt:"Récupérer les horaires de train de tout le monde et bâtir le planning des navettes", note:"Combourg → la ferme ≈ 15 min de route. Avec une voiture de 4 places et 23 personnes annoncées en train, ça fait beaucoup d'allers-retours : mieux vaut grouper les arrivées sur 2 ou 3 créneaux.", tags:[["q","à préparer"]]},
+     {id:"navette-tour", txt:"Assurer les navettes gare de Combourg → ferme", note:"Pendant que l'installation continue à la ferme : les référents navette ne peuvent pas être ceux qui montent le matos.", tags:[["q","jour J"]]},
      {id:"h16-invites", h:"16h", txt:"Arrivée des invités"},
      {id:"h16-install", h:"16→18h", txt:"Installation"},
      {id:"h18-ceremonie", h:"18h", txt:"Cérémonie"},
@@ -298,7 +300,7 @@ const DATA = [
      {id:"r1-fromages", txt:"Fromages"},
    ]},
    {id:"r2", titre:"Repas 2 — petit-déj", quand:"Dimanche matin", taches:[
-     {id:"r2-crepes", txt:"140 crêpes", tags:[["eur","~6,90 €"]]},
+     {id:"r2-crepes", txt:"140 crêpes", note:"0,60 € la crêpe", tags:[["eur","84 €"]]},
      {id:"r2-cafetiere", txt:"Cafetière", note:"Y en a-t-il une à la ferme ?", tags:[["q","à vérifier"]]},
      {id:"r2-nutella", txt:"Nutella"},
      {id:"r2-speculoos", txt:"Spéculoos"},
@@ -320,6 +322,8 @@ const DATA = [
    {id:"ref", titre:"Postes à pourvoir", taches:[
      {id:"ref-ddr", txt:"Dance Dance Revolution"},
      {id:"ref-voiture", txt:"Voiture", note:"Quelqu'un qui ne boit pas"},
+     {id:"ref-navette-1", txt:"Navette gare de Combourg — référent n°1", note:"Allers-retours gare → ferme le samedi. 23 personnes annoncées en train.", tags:[["q","à trouver"]]},
+     {id:"ref-navette-2", txt:"Navette gare de Combourg — référent n°2", note:"Deux voitures valent mieux qu'une : ça divise le nombre de rotations par deux.", tags:[["q","à trouver"]]},
      {id:"ref-karaoke", txt:"Karaoké"},
      {id:"ref-playlist", txt:"Playlist"},
      {id:"ref-petitdej", txt:"Petit-déj du lendemain"},
@@ -369,7 +373,7 @@ const DATA = [
      {id:"am-parking", txt:"Parking / accès à la ferme fléché"},
    ]},
    {id:"am-argent", titre:"Argent", taches:[
-     {id:"am-budget", txt:"Tenir le total des dépenses au même endroit", note:"Engagé : traiteur ~1000 € · fûts ~360 € · voiture ~288 € · borne photo 300 € · sono 80 € · micros 35 € = ~2063 €. À part : Airbnb ~360 € (récupérés chez les copains). Reste à chiffrer : vin, fromages, courses de Combourg, petit-déj."},
+     {id:"am-budget", txt:"Tenir le total des dépenses au même endroit", note:"Engagé : traiteur ~1000 € · fûts ~360 € · voiture ~288 € · borne photo 300 € · sono 80 € · micros 35 € · crêpes 84 € = ~2147 €. À part : Airbnb ~360 € (récupérés chez les copains). Reste à chiffrer : vin, fromages, courses de Combourg, reste du petit-déj."},
      {id:"am-remboursements", txt:"Décider qui avance quoi et comment on se rembourse", note:"Une cagnotte ou un tableau partagé évite les comptes d'apothicaire le dimanche."},
    ]},
   ]
