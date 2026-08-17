@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Orga — Fête de l'Amour (Leo &amp; Adrien)</title>
+<style>
+  :root{
+    --bg:#141021; --panel:#1e1830; --panel2:#262038; --ligne:#372e52;
+    --txt:#efe9ff; --txt2:#a99ec6;
+    --rose:#ff3399; --or:#ffcc00; --vert:#4caf50; --violet:#a06bff; --bleu:#5aa9ff;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--txt);
+    font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    padding-bottom:60px;
+  }
+  a{color:var(--bleu)}
+
+  /* ---------- en-tête ---------- */
+  header{
+    background:linear-gradient(180deg,#241b3d,#1a1430);
+    border-bottom:3px solid var(--rose);
+    padding:18px 16px 14px; position:sticky; top:0; z-index:10;
+    box-shadow:0 6px 18px rgba(0,0,0,.45);
+  }
+  .wrap{max-width:1000px;margin:0 auto}
+  h1{margin:0;font-size:22px;letter-spacing:.5px}
+  h1 small{display:block;font-size:13px;font-weight:normal;color:var(--txt2);margin-top:3px}
+  .hdr-row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between}
+  .compte{font-size:13px;color:var(--or);font-weight:600;white-space:nowrap}
+
+  .barre{height:10px;background:#0e0a1a;border-radius:6px;overflow:hidden;margin-top:12px;border:1px solid var(--ligne)}
+  .barre i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--rose),var(--or));transition:width .25s}
+  .stat{font-size:12px;color:var(--txt2);margin-top:5px}
+
+  .outils{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+  button{
+    font:inherit;font-size:13px;padding:6px 12px;border-radius:6px;cursor:pointer;
+    background:var(--panel2);color:var(--txt);border:1px solid var(--ligne);
+  }
+  button:hover{border-color:var(--rose)}
+  button.on{background:var(--rose);border-color:var(--rose);color:#fff;font-weight:600}
+
+  /* ---------- sections ---------- */
+  main{max-width:1000px;margin:0 auto;padding:0 16px}
+  section{margin:26px 0}
+  section > h2{
+    font-size:17px;margin:0 0 4px;padding-bottom:6px;border-bottom:2px solid var(--ligne);
+    display:flex;align-items:center;gap:10px;
+  }
+  section > h2 .cpt{font-size:12px;font-weight:normal;color:var(--txt2);margin-left:auto}
+  .intro{font-size:13px;color:var(--txt2);margin:6px 0 12px}
+
+  .bloc{background:var(--panel);border:1px solid var(--ligne);border-radius:10px;margin:12px 0;overflow:hidden}
+  .bloc > h3{
+    margin:0;padding:10px 14px;font-size:15px;background:var(--panel2);
+    border-bottom:1px solid var(--ligne);display:flex;align-items:center;gap:10px;
+  }
+  .bloc > h3 .quand{color:var(--or);font-variant-numeric:tabular-nums}
+  .bloc > h3 .cpt{margin-left:auto;font-size:12px;font-weight:normal;color:var(--txt2)}
+
+  ul.taches{list-style:none;margin:0;padding:0}
+  li.t{
+    display:flex;gap:10px;align-items:flex-start;
+    padding:9px 14px;border-bottom:1px solid rgba(255,255,255,.05);
+  }
+  li.t:last-child{border-bottom:none}
+  li.t:hover{background:rgba(255,255,255,.03)}
+  li.t input[type=checkbox]{
+    width:19px;height:19px;margin-top:2px;flex:0 0 auto;accent-color:var(--rose);cursor:pointer;
+  }
+  .corps{flex:1;min-width:0}
+  .txt{cursor:pointer}
+  .h{color:var(--or);font-weight:600;font-variant-numeric:tabular-nums;margin-right:6px}
+  .note{display:block;font-size:13px;color:var(--txt2);margin-top:2px}
+  .tag{
+    display:inline-block;font-size:11px;padding:1px 7px;border-radius:20px;margin-left:6px;
+    border:1px solid var(--ligne);color:var(--txt2);vertical-align:1px;
+  }
+  .tag.q{border-color:var(--or);color:var(--or)}
+  .tag.eur{border-color:var(--vert);color:var(--vert)}
+  .tag.ok{border-color:var(--vert);color:var(--vert)}
+  li.fait .txt,li.fait .note{opacity:.42;text-decoration:line-through;text-decoration-color:rgba(255,255,255,.35)}
+  li.fait .tag{opacity:.42}
+
+  input.qui{
+    flex:0 0 auto;width:92px;font:inherit;font-size:12px;padding:3px 7px;
+    background:#0e0a1a;border:1px solid var(--ligne);border-radius:5px;color:var(--violet);
+  }
+  input.qui::placeholder{color:#5c5378}
+  input.qui:focus{outline:none;border-color:var(--violet)}
+
+  .vide{padding:14px;color:var(--txt2);font-size:13px;font-style:italic}
+  .avis{
+    background:rgba(255,204,0,.08);border:1px solid rgba(255,204,0,.35);border-left:4px solid var(--or);
+    border-radius:8px;padding:10px 14px;font-size:13px;color:var(--txt2);margin:18px 0 0;
+  }
+  .avis b{color:var(--or)}
+
+  /* ---------- météo ---------- */
+  .meteo{background:var(--panel);border:1px solid var(--ligne);border-radius:10px;margin:18px 0 0;overflow:hidden}
+  .meteo > h3{
+    margin:0;padding:10px 14px;font-size:15px;background:var(--panel2);border-bottom:1px solid var(--ligne);
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  }
+  .meteo > h3 .src{margin-left:auto;font-size:11px;font-weight:normal;color:var(--txt2)}
+  .meteo-corps{padding:12px 14px}
+  .jours{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+  .jour{
+    background:#0e0a1a;border:1px solid var(--ligne);border-radius:8px;padding:10px;text-align:center;
+  }
+  .jour.jourj{border-color:var(--rose);box-shadow:0 0 0 1px rgba(255,51,153,.35)}
+  .jour .d{font-size:12px;color:var(--txt2);text-transform:uppercase;letter-spacing:.5px}
+  .jour.jourj .d{color:var(--rose);font-weight:700}
+  .jour .ico{font-size:30px;line-height:1.2;margin:2px 0}
+  .jour .t{font-size:17px;font-weight:600}
+  .jour .t small{font-size:13px;font-weight:400;color:var(--txt2)}
+  .jour .cond{font-size:12px;color:var(--txt2);margin-top:3px;min-height:2.4em}
+  .jour .pluie{font-size:12px;color:var(--bleu);margin-top:4px}
+  .heures{display:flex;gap:8px;overflow-x:auto;margin-top:12px;padding-bottom:4px}
+  .heure{
+    flex:0 0 auto;min-width:76px;background:#0e0a1a;border:1px solid var(--ligne);border-radius:8px;
+    padding:8px 6px;text-align:center;font-size:12px;
+  }
+  .heure b{display:block;color:var(--or);font-size:12px}
+  .heure .hi{font-size:20px;line-height:1.3}
+  .heure .ht{font-size:14px;color:var(--txt)}
+  .heure .hp{color:var(--bleu)}
+  .heure .lab{display:block;font-size:10px;color:var(--txt2);margin-top:2px}
+  .verdict{margin-top:12px;font-size:13px;padding:9px 12px;border-radius:8px;border-left:4px solid var(--ligne);background:rgba(255,255,255,.03)}
+  .verdict.sec{border-left-color:var(--vert)} .verdict.mouille{border-left-color:var(--bleu)}
+  .meteo-etat{font-size:13px;color:var(--txt2)}
+  footer{max-width:1000px;margin:36px auto 0;padding:16px;font-size:12px;color:var(--txt2);border-top:1px solid var(--ligne)}
+  .msg{color:var(--vert);font-size:12px;margin-left:8px}
+
+  @media(max-width:620px){
+    input.qui{width:74px}
+    h1{font-size:18px}
+  }
+  @media print{
+    header{position:static} .outils,.compte{display:none} body{background:#fff;color:#000}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="hdr-row">
+      <h1>Orga — Fête de l'Amour
+        <small>Samedi 29 août 2026 · Ferme du Domaine, Broualan · page interne Leo &amp; Adrien</small>
+      </h1>
+      <div class="compte" id="compte"></div>
+    </div>
+    <div class="barre"><i id="jauge"></i></div>
+    <div class="stat" id="stat">…</div>
+    <div class="outils">
+      <button data-filtre="tout" class="on">Tout</button>
+      <button data-filtre="restant">Reste à faire</button>
+      <button data-filtre="fait">Fait</button>
+      <span style="flex:1"></span>
+      <button id="btn-copier" title="Copie l'avancement dans le presse-papier pour l'envoyer à l'autre">Copier l'état</button>
+      <button id="btn-coller" title="Colle un état reçu">Coller un état</button>
+      <button id="btn-reset">Tout décocher</button>
+      <span class="msg" id="msg"></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap" style="padding:0 16px">
+  <p class="avis">
+    <b>Les cases cochées restent sur cet appareil.</b> Elles ne sont ni publiées ni envoyées nulle part, et
+    l'autre ne les voit pas : cocher sur ton téléphone ne coche rien sur l'ordi d'Adrien. Pour se synchroniser,
+    « Copier l'état » ici → l'envoyer → « Coller un état » chez l'autre.
+  </p>
+
+  <div class="meteo">
+    <h3>🌦️ Météo à la ferme — Broualan
+      <span class="src">Open-Meteo · mis à jour à chaque ouverture de la page ·
+        <a href="https://www.windy.com/48.465/-1.689" target="_blank" rel="noopener">détail</a>
+      </span>
+    </h3>
+    <div class="meteo-corps">
+      <div class="meteo-etat" id="meteo-etat">Chargement des prévisions…</div>
+      <div class="jours" id="meteo-jours"></div>
+      <div class="heures" id="meteo-heures"></div>
+      <div id="meteo-verdict"></div>
+    </div>
+  </div>
+</div>
+
+<main id="app"></main>
+
+<footer>
+  Coché = fait. L'avancement est gardé <b>dans ce navigateur uniquement</b> (localStorage) : rien n'est publié,
+  rien n'est envoyé au serveur, et ça ne suit pas d'un appareil à l'autre. Vider les données du navigateur efface tout.
+  Page non listée depuis l'accueil, mais accessible à qui connaît l'URL.
+  Source : notes manuscrites du 17 août 2026 (<code>orga/Scan_20260817_102833.pdf</code>).
+</footer>
+
+<datalist id="noms">
+  <option value="Leo"><option value="Adrien"><option value="Leo+Adrien">
+  <option value="Hélo"><option value="Fred"><option value="Cédric"><option value="Nathan">
+  <option value="M'hamed"><option value="Alex"><option value="Max"><option value="Sam"><option value="Florent">
+  <option value="Les sœurs"><option value="Monique"><option value="Vincent">
+</datalist>
+
+<script>
+/* ============================================================
+   Données — transcription des notes (chrono / repas / référents)
+   id = clé de sauvegarde : ne jamais la changer sans raison,
+   sinon l'avancement déjà coché est perdu pour cette ligne.
+   ============================================================ */
+const DATA = [
+{
+  id:"chrono", titre:"⏱️ Chrono", intro:"Le déroulé, de l'arrivée à Rennes au train du retour.",
+  blocs:[
+   {id:"c-mar25", titre:"Mardi 25 août", quand:"Arrivée à Rennes", taches:[
+     {id:"loc-voiture", txt:"Louer la voiture (Kangoo), début d'après-midi", note:"Jusqu'au lundi 31", tags:[["eur","~288 €"]]},
+     {id:"depart-lannion", txt:"Départ à Lannion"},
+   ]},
+   {id:"c-jeu27", titre:"Jeudi 27 août", quand:"Retour à Rennes", taches:[
+     {id:"retour-rennes", txt:"Retour à Rennes en début de soirée"},
+     {id:"dodo-monique", txt:"Confirmer le dodo chez Monique et Vincent", tags:[["q","à confirmer"]]},
+   ]},
+   {id:"c-ven28", titre:"Vendredi 28 août", quand:"Veille", taches:[
+     {id:"constater-ferme", txt:"Constater la ferme", note:"Broualan"},
+     {id:"recup-futs", txt:"Récupérer les 6 fûts + 2 tireuses et les déposer à la ferme", note:"Tout se dépose vendredi : le samedi est déjà plein.", tags:[["ok","planifié"]]},
+     {id:"accueil-copains", txt:"Arrivée à Rennes de Max, Alex, Florent, Sam, M'hamed, etc."},
+     {id:"airbnb-1", txt:"Airbnb n°1 — Fred, Cédric, Nathan et M'hamed", tags:[["ok","réservé"],["eur","~120 €"]]},
+     {id:"airbnb-2", txt:"Airbnb n°2 — Alex, Max, Sam, Florent", tags:[["ok","réservé"],["eur","~120 €"]]},
+     {id:"airbnb-3", txt:"Airbnb n°3 — nous + Hélo", tags:[["ok","réservé"],["eur","~120 €"]]},
+     {id:"airbnb-argent", txt:"Récupérer l'argent des Airbnb chez les copains", note:"~120 € par logement, à se faire rembourser sur place", tags:[["q","à faire"]]},
+   ]},
+   {id:"c-sam29-matin", titre:"Samedi 29 — matin & préparatifs", quand:"Jour J · 2 rotations en Kangoo", taches:[
+     {id:"courses-leclerc", txt:"① Leclerc St-Grégoire : récupérer la bouffe du traiteur", note:"Le tout rentre dans la Kangoo."},
+     {id:"recup-materiel", txt:"① Même Leclerc : récupérer borne photo, sono, micros et lumières", note:"Borne photo 300 € · sono 80 € · micros 35 €", tags:[["eur","~415 €"]]},
+     {id:"trajet-broualan", txt:"② Rennes → Broualan : tout mettre au froid en arrivant", note:"La bouffe du traiteur est sécurisée avant tout le reste."},
+     {id:"debarque-ferme", txt:"ON DÉBARQUE À LA FERME"},
+     {id:"combourg-aller", txt:"③ Broualan → Combourg → Broualan : vin (caviste, cubis), fromages et le reste des courses", note:"Seulement une fois le traiteur au frais à la ferme."},
+     {id:"repas-midi", txt:"Penser au repas du midi pour nous et les sœurs", note:"Facile à oublier dans le rush : à prendre pendant une des deux rotations."},
+   ]},
+   {id:"c-sam29-jour", titre:"Samedi 29 — déroulé de la journée", quand:"Jour J", taches:[
+     {id:"h14-soeurs", h:"14h", txt:"Arrivée des sœurs"},
+     {id:"h16-invites", h:"16h", txt:"Arrivée des invités"},
+     {id:"h16-install", h:"16→18h", txt:"Installation"},
+     {id:"h18-ceremonie", h:"18h", txt:"Cérémonie"},
+     {id:"h19-apero", h:"19h", txt:"Apéro", note:"DDR pendant l'apéro, pour les enfants et qui veut"},
+     {id:"h20-repas", h:"20h", txt:"Repas"},
+     {id:"h22-karaoke", h:"après", txt:"Karaoké après le repas"},
+     {id:"h23-musique", h:"fin", txt:"Musique pour finir"},
+     {id:"interventions", txt:"Interventions des invités pendant la soirée", note:"À caler entre repas, karaoké et musique"},
+   ]},
+   {id:"c-dim30", titre:"Dimanche 30 août", quand:"Lendemain", taches:[
+     {id:"petit-dej-dim", txt:"Petit-déj à la ferme", note:"Voir la section Repas 2"},
+     {id:"menage-dim", txt:"Ménage", note:"Un référent dédié (voir Référents)"},
+   ]},
+   {id:"c-lun31", titre:"Lundi 31 août", quand:"Retour", taches:[
+     {id:"rendre-tireuse", txt:"Rendre tireuse et fûts à Combourg"},
+     {id:"rendre-voiture", txt:"Rendre la voiture de location"},
+     {id:"train-retour", h:"16h30", txt:"Train retour"},
+   ]},
+  ]
+},
+{
+  id:"repas", titre:"🍽️ Repas", intro:"Repas 1 = le repas principal du samedi soir. Repas 2 = le petit-déj du lendemain.",
+  blocs:[
+   {id:"r1", titre:"Repas 1 — repas principal", quand:"Samedi 20h", taches:[
+     {id:"r1-bieres", txt:"Bières : 2 tireuses et 6 fûts — brasserie PLOUC", note:"~60 € le fût. Les notes manuscrites disaient 5 fûts, on est passés à 6.", tags:[["eur","~360 €"]], lien:{url:"https://www.biocooplechatbiotte.com/producteurs-locaux/86855/brasserie-plouc", txt:"Brasserie PLOUC (Biocoop Le Chat Biotte)"}},
+     {id:"r1-bieres-commande", txt:"Confirmer la commande PLOUC : format des fûts, tireuses, consigne", note:"Combien de litres par fût (20 ou 30 L) ? Quel raccord pour les tireuses ? Montant de la consigne à récupérer ?", tags:[["q","à vérifier"]]},
+     {id:"r1-bieres-froid", txt:"Prévoir le froid pour les fûts", note:"Bière artisanale : les fûts doivent être au frais bien avant le service, et la tireuse a besoin d'électricité + de temps pour refroidir. Où on les stocke à la ferme dès vendredi ?", tags:[["q","à régler"]]},
+     {id:"r1-traiteur", txt:"Traiteur Leclerc", note:"Déjà payé", tags:[["eur","~1000 €"],["ok","payé"]]},
+     {id:"r1-vin", txt:"Vin : caviste, en cubis", tags:[["q","à prendre"]]},
+     {id:"r1-petillants", txt:"Pétillants"},
+     {id:"r1-breizh", txt:"Breizh cola"},
+     {id:"r1-jus", txt:"Jus d'orange et eau"},
+     {id:"r1-fromages", txt:"Fromages"},
+   ]},
+   {id:"r2", titre:"Repas 2 — petit-déj", quand:"Dimanche matin", taches:[
+     {id:"r2-crepes", txt:"140 crêpes", tags:[["eur","~6,90 €"]]},
+     {id:"r2-cafetiere", txt:"Cafetière", note:"Y en a-t-il une à la ferme ?", tags:[["q","à vérifier"]]},
+     {id:"r2-nutella", txt:"Nutella"},
+     {id:"r2-speculoos", txt:"Spéculoos"},
+     {id:"r2-caramel", txt:"Caramel"},
+     {id:"r2-confitures", txt:"Confitures"},
+     {id:"r2-beurre", txt:"Beurre"},
+     {id:"r2-fruits", txt:"Fruits"},
+     {id:"r2-chocolat", txt:"Chocolat en poudre"},
+     {id:"r2-lait", txt:"Lait (1 pack)"},
+     {id:"r2-cafe", txt:"Café"},
+     {id:"r2-sucre", txt:"Sucre"},
+     {id:"r2-restes", txt:"Sortir les restes de la veille"},
+   ]},
+  ]
+},
+{
+  id:"referents", titre:"🙋 Référents", intro:"Un nom en face de chaque poste. Cocher quand quelqu'un a dit oui.",
+  blocs:[
+   {id:"ref", titre:"Postes à pourvoir", taches:[
+     {id:"ref-ddr", txt:"Dance Dance Revolution"},
+     {id:"ref-voiture", txt:"Voiture", note:"Quelqu'un qui ne boit pas"},
+     {id:"ref-karaoke", txt:"Karaoké"},
+     {id:"ref-playlist", txt:"Playlist"},
+     {id:"ref-petitdej", txt:"Petit-déj du lendemain"},
+     {id:"ref-miseenplace-repas", txt:"Mise en place — repas"},
+     {id:"ref-miseenplace-boissons", txt:"Mise en place — boissons"},
+     {id:"ref-menage", txt:"Ménage du lendemain"},
+   ]},
+   {id:"musique", titre:"Musique & karaoké — à trancher", taches:[
+     {id:"mus-deezer", txt:"Trouver une façon de gérer la playlist Deezer", note:"+ 1 radio en backup", tags:[["q","à décider"]]},
+     {id:"mus-radios", txt:"Ou : plusieurs radios à choisir selon le mood", tags:[["q","alternative"]]},
+     {id:"mus-rpi", txt:"Interface musique + karaoké sur la Raspberry", note:"Projet traité à part (voir le dépôt Raspberry / Home Assistant). Contrainte à lui donner : tout doit marcher SANS internet à la ferme.", tags:[["q","projet à part"]]},
+     {id:"mus-offline", txt:"Télécharger playlists et vidéos karaoké en local avant de partir", note:"On ne sait pas ce que donne la 4G à Broualan. Un seul point de défaillance = plus de musique de la soirée.", tags:[["q","critique"]]},
+   ]},
+  ]
+},
+{
+  id:"angles-morts", titre:"⚠️ Angles morts", intro:"Ce qui n'apparaît nulle part dans les notes et qui peut coincer le jour J. À trier : certaines lignes sont peut-être déjà couvertes par la ferme ou le traiteur — dans ce cas, cocher.",
+  blocs:[
+   {id:"am-materiel", titre:"Vaisselle & matériel", quand:"le trou le plus visible", taches:[
+     {id:"am-verres", txt:"Double-checker les verres à la ferme", note:"Normalement il y en a sur place. À confirmer quand même vendredi en constatant la ferme : 2 tireuses sans verres, c'est la soirée qui s'arrête.", tags:[["q","double-check"]]},
+     {id:"am-vaisselle", txt:"Assiettes, couverts, plats de service", note:"Inclus dans la presta traiteur Leclerc ou pas ?", tags:[["q","à vérifier"]]},
+     {id:"am-ustensiles", txt:"Tire-bouchons, décapsuleurs, grands couteaux, planches (fromages)"},
+     {id:"am-nappes", txt:"Nappes, serviettes, essuie-tout, torchons, éponges, liquide vaisselle"},
+     {id:"am-poubelles", txt:"Sacs poubelle + tri + où sortir les déchets", note:"180 L de bière et 60 personnes, ça fait beaucoup de déchets pour le ménage du dimanche."},
+     {id:"am-glace", txt:"Glace / glacières pour les boissons"},
+     {id:"am-rallonges", txt:"Rallonges et multiprises", note:"Tireuses + enceinte + lumières + photobooth : compter les prises disponibles à la ferme."},
+   ]},
+   {id:"am-son", titre:"Son, cérémonie & karaoké", taches:[
+     {id:"am-micro", txt:"Micros et sono loués", note:"Micros 35 €, sono 80 €, avec la borne photo au Leclerc.", tags:[["ok","réservé"],["eur","115 €"]]},
+     {id:"am-kit-son", txt:"Vérifier le kit au retrait : câbles, pieds, piles des micros, adaptateur jack", note:"Se rendre compte à 18h qu'il manque un câble, c'est 1h de perdue et personne pour aller le chercher.", tags:[["q","au retrait"]]},
+     {id:"am-ecran", txt:"Écran ou vidéoprojecteur pour le karaoké", note:"Et de quoi le brancher (câble, adaptateur). Pas encore dans la loc.", tags:[["q","à faire"]]},
+     {id:"am-deroule-ceremonie", txt:"Écrire le déroulé de la cérémonie de 18h", note:"Qui parle, dans quel ordre, combien de temps, qui lance la musique."},
+     {id:"am-interventions", txt:"Prévenir les invités qui interviennent", note:"Leur donner un créneau, sinon ça ne se déclenche jamais."},
+   ]},
+   {id:"am-logistique", titre:"Logistique & chaîne du froid", taches:[
+     {id:"am-frigo", txt:"Froid et transport : réglé", note:"Traiteur récupéré à St-Grégoire puis mis au froid directement à Broualan, le reste acheté à Combourg ensuite. Tout rentre dans la Kangoo, fûts déposés dès le vendredi.", tags:[["ok","OK"]]},
+     {id:"am-horaires-combourg-sam", txt:"Vérifier les horaires du caviste et des commerces de Combourg le samedi après-midi", note:"La rotation Broualan→Combourg→Broualan tombe en plein milieu de journée, avec la cérémonie à 18h derrière.", tags:[["q","à vérifier"]]},
+     {id:"am-combourg-lundi", txt:"Vérifier les horaires du lundi pour rendre tireuse et fûts à Combourg", note:"Beaucoup de commerces ferment le lundi. Le train est à 16h30 : la journée est serrée.", tags:[["q","à vérifier"]]},
+     {id:"am-agence-loc", txt:"Vérifier l'horaire de fermeture de l'agence de location lundi"},
+     {id:"am-cles", txt:"Clés / accès / état des lieux de la ferme : qui, quand, et à qui on rend"},
+   ]},
+   {id:"am-invites", titre:"Invités & jour J", taches:[
+     {id:"am-contact", txt:"Un numéro de contact unique communiqué aux invités", note:"Pour les retards, les perdus, les questions. Idéalement pas le nôtre le jour J."},
+     {id:"am-pluie", txt:"Plan B pluie", note:"Fin août en Bretagne. La cérémonie de 18h et l'apéro se passent où s'il pleut ?", tags:[["q","à décider"]]},
+     {id:"am-enfants", txt:"Coin enfants + où ils dorment", note:"Le DDR occupe l'apéro, mais après 20h ?"},
+     {id:"am-regimes", txt:"Recroiser les régimes alimentaires avec le traiteur", note:"Au moins un végé identifié dans la liste des participants."},
+     {id:"am-parking", txt:"Parking / accès à la ferme fléché"},
+   ]},
+   {id:"am-argent", titre:"Argent", taches:[
+     {id:"am-budget", txt:"Tenir le total des dépenses au même endroit", note:"Engagé : traiteur ~1000 € · fûts ~360 € · voiture ~288 € · borne photo 300 € · sono 80 € · micros 35 € = ~2063 €. À part : Airbnb ~360 € (récupérés chez les copains). Reste à chiffrer : vin, fromages, courses de Combourg, petit-déj."},
+     {id:"am-remboursements", txt:"Décider qui avance quoi et comment on se rembourse", note:"Une cagnotte ou un tableau partagé évite les comptes d'apothicaire le dimanche."},
+   ]},
+  ]
+},
+];
+
+/* ============================================================
+   Rendu + état
+   ============================================================ */
+const CLE = "fete-orga-v1";
+let etat = charger();
+let filtre = "tout";
+
+function charger(){
+  try{ return JSON.parse(localStorage.getItem(CLE)) || {faits:{},qui:{}}; }
+  catch(e){ return {faits:{},qui:{}}; }
+}
+function sauver(){ localStorage.setItem(CLE, JSON.stringify(etat)); }
+
+const el = (t,c,h)=>{const n=document.createElement(t); if(c)n.className=c; if(h!==undefined)n.innerHTML=h; return n;};
+
+function rendre(){
+  const app = document.getElementById("app");
+  app.textContent = "";
+  for(const sec of DATA){
+    const s = el("section");
+    s.dataset.sec = sec.id;
+    const h2 = el("h2", null, sec.titre);
+    h2.appendChild(el("span","cpt"));
+    s.appendChild(h2);
+    if(sec.intro) s.appendChild(el("div","intro",sec.intro));
+
+    for(const bloc of sec.blocs){
+      const b = el("div","bloc");
+      b.dataset.bloc = bloc.id;
+      const h3 = el("h3","", bloc.titre);
+      if(bloc.quand) h3.appendChild(el("span","quand"," · "+bloc.quand));
+      h3.appendChild(el("span","cpt"));
+      b.appendChild(h3);
+
+      const ul = el("ul","taches");
+      for(const t of bloc.taches) ul.appendChild(ligne(t));
+      b.appendChild(ul);
+      b.appendChild(el("div","vide","Rien à afficher avec ce filtre."));
+      s.appendChild(b);
+    }
+    app.appendChild(s);
+  }
+  appliquer();
+}
+
+function ligne(t){
+  const li = el("li","t");
+  li.dataset.id = t.id;
+
+  const cb = el("input"); cb.type="checkbox"; cb.checked = !!etat.faits[t.id];
+  cb.addEventListener("change", ()=>{
+    if(cb.checked) etat.faits[t.id]=1; else delete etat.faits[t.id];
+    sauver(); appliquer();
+  });
+  li.appendChild(cb);
+
+  const corps = el("div","corps");
+  const txt = el("div","txt");
+  if(t.h) txt.appendChild(el("span","h",t.h));
+  txt.appendChild(document.createTextNode(t.txt));
+  for(const [k,v] of (t.tags||[])) txt.appendChild(el("span","tag "+k,v));
+  txt.addEventListener("click", ()=>{ cb.checked = !cb.checked; cb.dispatchEvent(new Event("change")); });
+  corps.appendChild(txt);
+  if(t.note) corps.appendChild(el("span","note",t.note));
+  if(t.lien){
+    const a = el("a"); a.href=t.lien.url; a.target="_blank"; a.rel="noopener";
+    a.textContent = "🔗 "+t.lien.txt;
+    const w = el("span","note"); w.appendChild(a);
+    corps.appendChild(w);
+  }
+  li.appendChild(corps);
+
+  const qui = el("input","qui");
+  qui.placeholder="qui ?"; qui.setAttribute("list","noms");
+  qui.value = etat.qui[t.id] || "";
+  qui.addEventListener("input", ()=>{
+    const v = qui.value.trim();
+    if(v) etat.qui[t.id]=v; else delete etat.qui[t.id];
+    sauver();
+  });
+  li.appendChild(qui);
+
+  return li;
+}
+
+function appliquer(){
+  let total=0, faits=0;
+  for(const li of document.querySelectorAll("li.t")){
+    const f = !!etat.faits[li.dataset.id];
+    li.classList.toggle("fait", f);
+    li.querySelector("input[type=checkbox]").checked = f;
+    const visible = filtre==="tout" || (filtre==="fait"?f:!f);
+    li.style.display = visible ? "" : "none";
+    total++; if(f) faits++;
+  }
+  for(const b of document.querySelectorAll(".bloc")){
+    const lis=[...b.querySelectorAll("li.t")];
+    const n=lis.filter(l=>etat.faits[l.dataset.id]).length;
+    b.querySelector("h3 .cpt").textContent = n+"/"+lis.length;
+    const vus = lis.filter(l=>l.style.display!=="none").length;
+    b.querySelector(".vide").style.display = vus ? "none" : "";
+  }
+  for(const s of document.querySelectorAll("section")){
+    const lis=[...s.querySelectorAll("li.t")];
+    const n=lis.filter(l=>etat.faits[l.dataset.id]).length;
+    s.querySelector("h2 .cpt").textContent = n+"/"+lis.length+" fait"+(n>1?"s":"");
+  }
+  const pct = total ? Math.round(faits/total*100) : 0;
+  document.getElementById("jauge").style.width = pct+"%";
+  document.getElementById("stat").textContent =
+    faits+" / "+total+" tâches faites ("+pct+"%) — reste "+(total-faits)+" à faire.";
+}
+
+/* ---------- filtres ---------- */
+for(const b of document.querySelectorAll("[data-filtre]")){
+  b.addEventListener("click", ()=>{
+    filtre = b.dataset.filtre;
+    document.querySelectorAll("[data-filtre]").forEach(x=>x.classList.toggle("on", x===b));
+    appliquer();
+  });
+}
+
+/* ---------- partage de l'état ---------- */
+const msg = document.getElementById("msg");
+function flash(m){ msg.textContent=m; setTimeout(()=>msg.textContent="", 3000); }
+
+document.getElementById("btn-copier").addEventListener("click", async ()=>{
+  const s = JSON.stringify(etat);
+  try{ await navigator.clipboard.writeText(s); flash("Copié ! Envoie-le à l'autre."); }
+  catch(e){ prompt("Copie ce texte et envoie-le :", s); }
+});
+document.getElementById("btn-coller").addEventListener("click", ()=>{
+  const s = prompt("Colle ici l'état reçu (ça remplace le tien) :");
+  if(!s) return;
+  try{
+    const o = JSON.parse(s);
+    etat = {faits:o.faits||{}, qui:o.qui||{}};
+    sauver(); rendre(); flash("État importé.");
+  }catch(e){ flash("Format non reconnu."); }
+});
+document.getElementById("btn-reset").addEventListener("click", ()=>{
+  if(!confirm("Tout décocher et effacer les noms ? Irréversible.")) return;
+  etat = {faits:{},qui:{}}; sauver(); rendre(); flash("Remis à zéro.");
+});
+
+/* ---------- compte à rebours ---------- */
+const JOUR_J = new Date("2026-08-29T18:00:00+02:00");
+function rebours(){
+  const d = JOUR_J - new Date();
+  const c = document.getElementById("compte");
+  if(d<=0){ c.textContent="C'est aujourd'hui ou c'est passé 🎉"; return; }
+  const j = Math.floor(d/86400000), h = Math.floor(d/3600000)%24;
+  c.textContent = "J−"+j+" ("+j+" jours "+h+" h avant la cérémonie)";
+}
+rebours(); setInterval(rebours, 60000);
+
+rendre();
+
+/* ============================================================
+   Météo — Open-Meteo (gratuit, sans clé, sans compte)
+   Coordonnées de la ferme reprises de carte.html.
+   La prévision ne remonte qu'à ~16 jours : avant ça, rien à afficher.
+   ============================================================ */
+const FERME = {lat:48.464834, lon:-1.689112};
+const CIBLES = [
+  {date:"2026-08-28", lab:"Ven 28", sous:"veille"},
+  {date:"2026-08-29", lab:"Sam 29", sous:"JOUR J", jourj:true},
+  {date:"2026-08-30", lab:"Dim 30", sous:"petit-déj"},
+  {date:"2026-08-31", lab:"Lun 31", sous:"retour"},
+];
+/* moments du jour J qu'on veut voir heure par heure */
+const MOMENTS = [
+  ["11:00","courses"], ["14:00","les sœurs"], ["16:00","invités"],
+  ["18:00","cérémonie"], ["19:00","apéro"], ["20:00","repas"], ["22:00","karaoké"], ["00:00","fin"],
+];
+/* codes WMO → emoji + libellé */
+const WMO = {
+  0:["☀️","Ciel dégagé"], 1:["🌤️","Plutôt dégagé"], 2:["⛅","Partiellement nuageux"], 3:["☁️","Couvert"],
+  45:["🌫️","Brouillard"], 48:["🌫️","Brouillard givrant"],
+  51:["🌦️","Bruine légère"], 53:["🌦️","Bruine"], 55:["🌧️","Bruine forte"],
+  56:["🌧️","Bruine verglaçante"], 57:["🌧️","Bruine verglaçante"],
+  61:["🌦️","Pluie faible"], 63:["🌧️","Pluie"], 65:["🌧️","Pluie forte"],
+  66:["🌧️","Pluie verglaçante"], 67:["🌧️","Pluie verglaçante"],
+  71:["🌨️","Neige faible"], 73:["🌨️","Neige"], 75:["❄️","Neige forte"], 77:["❄️","Grains de neige"],
+  80:["🌦️","Averses"], 81:["🌧️","Averses"], 82:["⛈️","Fortes averses"],
+  85:["🌨️","Averses de neige"], 86:["🌨️","Averses de neige"],
+  95:["⛈️","Orage"], 96:["⛈️","Orage et grêle"], 99:["⛈️","Orage et grêle"],
+};
+const wmo = c => WMO[c] || ["❓","—"];
+
+async function meteo(){
+  const zoneEtat = document.getElementById("meteo-etat");
+  const url = "https://api.open-meteo.com/v1/forecast"
+    + "?latitude="+FERME.lat + "&longitude="+FERME.lon
+    + "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,wind_speed_10m_max"
+    + "&hourly=temperature_2m,precipitation_probability,weather_code"
+    + "&timezone=Europe%2FParis&forecast_days=16";
+  let d;
+  try{
+    const r = await fetch(url);
+    if(!r.ok) throw new Error(r.status);
+    d = await r.json();
+  }catch(e){
+    zoneEtat.innerHTML = "Prévisions indisponibles (pas de réseau ?). "
+      + "<a href='https://www.windy.com/48.465/-1.689' target='_blank' rel='noopener'>Voir sur Windy</a>.";
+    return;
+  }
+
+  /* --- jours --- */
+  const dispo = CIBLES.filter(c => d.daily.time.includes(c.date));
+  const boxJours = document.getElementById("meteo-jours");
+  if(!dispo.length){
+    const reste = Math.ceil((new Date("2026-08-29") - new Date())/86400000) - 15;
+    zoneEtat.textContent = "Trop tôt : les prévisions ne vont pas au-delà de 16 jours. "
+      + "Le week-end de la fête apparaîtra ici dans environ " + Math.max(reste,1) + " jour(s).";
+    return;
+  }
+  zoneEtat.style.display = "none";
+
+  for(const c of dispo){
+    const i = d.daily.time.indexOf(c.date);
+    const [ico,txt] = wmo(d.daily.weather_code[i]);
+    const j = el("div","jour"+(c.jourj?" jourj":""));
+    j.appendChild(el("div","d", c.lab+" · "+c.sous));
+    j.appendChild(el("div","ico", ico));
+    j.appendChild(el("div","t", Math.round(d.daily.temperature_2m_max[i])+"°<small> / "
+      + Math.round(d.daily.temperature_2m_min[i])+"°</small>"));
+    j.appendChild(el("div","cond", txt));
+    j.appendChild(el("div","pluie", "💧 "+(d.daily.precipitation_probability_max[i] ?? "–")+"% · "
+      + (d.daily.precipitation_sum[i] ?? 0).toFixed(1)+" mm<br>🌬️ "
+      + Math.round(d.daily.wind_speed_10m_max[i])+" km/h"));
+    boxJours.appendChild(j);
+  }
+
+  /* --- heure par heure du jour J --- */
+  const boxH = document.getElementById("meteo-heures");
+  const proba = [];
+  for(const [h,lab] of MOMENTS){
+    const key = (h==="00:00" ? "2026-08-30" : "2026-08-29") + "T" + h;
+    const i = d.hourly.time.indexOf(key);
+    if(i < 0) continue;
+    const [ico] = wmo(d.hourly.weather_code[i]);
+    const p = d.hourly.precipitation_probability[i];
+    if(h>="16:00" || h==="00:00") proba.push(p);
+    const b = el("div","heure");
+    b.appendChild(el("b", null, h.slice(0,2)+"h"));
+    b.appendChild(el("div","hi", ico));
+    b.appendChild(el("div","ht", Math.round(d.hourly.temperature_2m[i])+"°"));
+    b.appendChild(el("div","hp", "💧"+p+"%"));
+    b.appendChild(el("span","lab", lab));
+    boxH.appendChild(b);
+  }
+
+  /* --- verdict plan B pluie --- */
+  const iJ = d.daily.time.indexOf("2026-08-29");
+  if(iJ >= 0){
+    const pmax = Math.max(...(proba.length?proba:[d.daily.precipitation_probability_max[iJ]]));
+    const mm = d.daily.precipitation_sum[iJ] ?? 0;
+    const tmin = d.daily.temperature_2m_min[iJ];
+    const v = el("div","verdict "+(pmax>=50||mm>=2 ? "mouille" : "sec"));
+    const jRestants = Math.ceil((new Date("2026-08-29") - new Date())/86400000);
+    let m;
+    if(pmax>=50 || mm>=2)      m = "<b>Prévoir le plan B pluie.</b> Jusqu'à "+pmax+"% de risque de pluie sur la tranche cérémonie → soirée.";
+    else if(pmax>=25)          m = "<b>Incertain.</b> "+pmax+"% de risque de pluie en soirée : garder un abri sous le coude.";
+    else                       m = "<b>Ça sent le sec.</b> "+pmax+"% de risque de pluie sur la soirée.";
+    m += " Il fera "+Math.round(tmin)+"° au plus froid dans la nuit — prévoir des couches pour ceux qui restent dehors.";
+    if(jRestants > 7) m += " <i>À J−"+jRestants+", une prévision reste une tendance : à re-regarder à partir de J−5.</i>";
+    v.innerHTML = m;
+    document.getElementById("meteo-verdict").appendChild(v);
+  }
+}
+meteo();
+</script>
+</body>
+</html>

@@ -5,5 +5,8 @@ Participants-es - Fête de l'Amour.xlsx
 # Vidéo source du GIF (non nécessaire au site, fichier personnel)
 perro-pascal.mp4
 
+# Scans des notes manuscrites d'orga (source de orga.html, lourd et perso)
+orga/*.pdf
+
 # Config / outils locaux
 .claude/
