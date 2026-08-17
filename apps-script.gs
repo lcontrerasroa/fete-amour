@@ -12,8 +12,12 @@
  *    une fois sur chaque téléphone/ordi pour pouvoir cocher).
  * 4. Enregistre, puis Déployer > Gérer les déploiements > (crayon) >
  *    Version : Nouvelle version > Déployer.
- *    /!\ Il faut bien une NOUVELLE VERSION, sinon l'ancien code reste en ligne.
- * 5. L'URL /exec ne change pas : rien à modifier dans le site.
+ *    /!\ Il faut bien une NOUVELLE VERSION du déploiement EXISTANT. Si tu passes
+ *        par « Nouveau déploiement », Google crée une deuxième application web
+ *        avec une AUTRE URL /exec, et il faut alors reporter cette URL dans
+ *        index.html (GUESTBOOK_URL) et orga.html (SYNC_URL).
+ * 5. Avec une nouvelle version du même déploiement, l'URL ne change pas :
+ *    rien à modifier dans le site.
  *
  * --- PREMIÈRE INSTALLATION (si tu repars de zéro) ---
  * Crée un Sheet, Extensions > Apps Script, colle ce fichier, puis
