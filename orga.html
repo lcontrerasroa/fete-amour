@@ -578,7 +578,15 @@ poserTheme(localStorage.getItem(CLE_THEME) || "clair");
 const SYNC_URL = "https://script.google.com/macros/s/AKfycbyj5LJzZ0HazlUk00NPwWaTBDRpwEuX2GjoFdjs2k_TuxjSYW6RSBKDStE1gTyDFNK4/exec";
 const CLE_CODE = "fete-orga-code";
 const zoneSync = document.getElementById("sync");
-let dernierePoussee = 0, timerPoussee = null, enVol = false;
+let dernierePoussee = 0, timerPoussee = null, enVol = false, attenduT = 0;
+
+/* Horodatage le plus récent d'un état : sert à vérifier qu'une écriture
+   est bien arrivée dans le Sheet (le POST est aveugle, en no-cors). */
+function maxT(o){
+  let m = 0;
+  for(const bac of ["faits","qui"]) for(const k in o[bac]) m = Math.max(m, o[bac][k].t||0);
+  return m;
+}
 
 function code(){ return localStorage.getItem(CLE_CODE) || ""; }
 function demanderCode(){
@@ -615,6 +623,18 @@ function tirer(manuel){
     }
     try{
       const distant = normaliser(rep.etat || {});
+      /* Le POST est aveugle : si nos dernières modifs ne sont pas revenues,
+         c'est que le serveur les a refusées — presque toujours un code d'accès faux. */
+      if(attenduT && maxT(distant) < attenduT){
+        attenduT = 0;
+        localStorage.removeItem(CLE_CODE);
+        etatSync("🔒 Code d'accès refusé par le Sheet — modifications gardées en local.", false);
+        delete window[cb]; s.remove();
+        if(confirm("Le Google Sheet a refusé les modifications : le code d'accès est faux.\n\nRessaisir le code maintenant ?")
+           && demanderCode()) pousser();
+        return;
+      }
+      attenduT = 0;
       const avant = JSON.stringify(etat);
       etat = fusionner(etat, distant);
       sauver();
@@ -644,6 +664,7 @@ function pousser(){
   }
   if(enVol){ pousserPlusTard(); return; }
   enVol = true;
+  attenduT = maxT(etat);
   etatSync("☁️ Envoi…");
   fetch(SYNC_URL, {
     method:"POST", mode:"no-cors",
