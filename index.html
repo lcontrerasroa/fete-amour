@@ -127,6 +127,73 @@
     width:100%;height:420px;border:4px ridge var(--bleu);border-radius:10px;background:#f4f3ee;
   }
 
+  /* ============ ENCADRE CADEAU : MEGA EMPHASE AN 2000 ============ */
+  .mega{
+    background:#fffbe6;
+    border:7px ridge var(--or);
+    box-shadow:0 0 0 5px var(--rose), 0 0 0 10px var(--violet), 0 0 30px 8px rgba(255,140,0,.75);
+    padding:0 0 18px;
+    animation:megaPulse 1.1s ease-in-out infinite alternate;
+  }
+  @keyframes megaPulse{
+    from{box-shadow:0 0 0 5px var(--rose), 0 0 0 10px var(--violet), 0 0 18px 4px rgba(255,140,0,.55)}
+    to  {box-shadow:0 0 0 5px var(--or),   0 0 0 10px var(--rose),   0 0 40px 14px rgba(255,80,0,.95)}
+  }
+  /* bandeau defilant facon <marquee> */
+  .mega-bandeau{
+    overflow:hidden;white-space:nowrap;
+    background:linear-gradient(90deg,#000,#7a0000,#ff6a00,#7a0000,#000);
+    border-bottom:4px ridge var(--or);
+    padding:5px 0;margin-bottom:14px;
+  }
+  .mega-bandeau span{
+    display:inline-block;padding-left:100%;
+    color:#ffe680;font-weight:bold;font-size:15px;letter-spacing:1px;
+    text-shadow:0 0 6px #ff8c00, 2px 2px 0 #000;
+    animation:megaDefile 18s linear infinite;
+  }
+  @keyframes megaDefile{to{transform:translateX(-100%)}}
+
+  .mega-rangee{display:flex;align-items:stretch;gap:10px;padding:0 12px}
+  .mega-coeur{flex:1;min-width:0}
+  .flamme{
+    width:58px;flex:0 0 58px;align-self:stretch;
+    object-fit:fill;image-rendering:pixelated;
+    border-radius:4px;
+  }
+  .flamme-miroir{transform:scaleX(-1)}
+
+  .mega-titre{
+    font-size:38px !important;line-height:1.1;margin:6px 0 10px !important;
+    color:#ffe600 !important;
+    text-shadow:3px 3px 0 #ff0040, -2px -2px 0 #0044ff, 0 0 14px #ff8c00, 4px 4px 8px rgba(0,0,0,.5) !important;
+    animation:megaTaille 1.4s ease-in-out infinite alternate;
+  }
+  @keyframes megaTaille{from{transform:scale(1)}to{transform:scale(1.06)}}
+  .mega-accroche{
+    font-size:17px;font-weight:bold;color:#d40000;margin:0 0 12px;
+    text-shadow:1px 1px 0 #ffe680;
+  }
+  .surligne{
+    background:linear-gradient(180deg,#ffff66,#ffd400);
+    color:#7a0000;padding:0 5px;border-radius:3px;
+    box-shadow:0 0 0 2px #ff0040;
+  }
+  .mega-btn{
+    font-size:19px !important;opacity:.75;cursor:default;
+    animation:megaTaille 1s ease-in-out infinite alternate;
+  }
+  @media(prefers-reduced-motion:reduce){
+    .mega,.mega-titre,.mega-btn{animation:none}
+    .mega-bandeau span{animation:none;padding-left:0}
+  }
+  @media(max-width:620px){
+    .flamme{width:30px;flex:0 0 30px}
+    .mega-rangee{gap:6px;padding:0 6px}
+    .mega-titre{font-size:27px !important}
+    .mega-accroche{font-size:14px}
+  }
+
   /* Stats + table des invites */
   .stats{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0 16px}
   .stat{background:#fff;border:2px groove var(--violet);border-radius:20px;padding:5px 12px;font-size:14px}
@@ -217,6 +284,57 @@
   </header>
 
   <div class="ruban"></div>
+
+  <!-- ===================== CADEAU / CAGNOTTE SOLIDAIRE ===================== -->
+  <section id="cadeau" class="panneau mega">
+    <div class="mega-bandeau"><span>&#128293;&#128293;&#128293; UN CADEAU ?! &#9733; CAGNOTTE SOLIDAIRE &#9733; CLIQUEZ ICI &#9733; NOUVEAU !!! &#128293;&#128293;&#128293; &nbsp;&nbsp;&nbsp; &#128293;&#128293;&#128293; UN CADEAU ?! &#9733; CAGNOTTE SOLIDAIRE &#9733; CLIQUEZ ICI &#9733; NOUVEAU !!! &#128293;&#128293;&#128293;</span></div>
+
+    <div class="mega-rangee">
+      <img class="flamme" src="flammes.gif" alt="" aria-hidden="true">
+
+      <div class="mega-coeur">
+        <h2 class="mega-titre">&#127873; UN CADEAU ?! &#127873;</h2>
+        <p class="mega-accroche blink">&#9733;&#9733;&#9733; LISEZ CECI AVANT DE FAIRE LES MAGASINS !!! &#9733;&#9733;&#9733;</p>
+
+        <p style="font-size:17px">
+          Votre pr&eacute;sence suffit largement&nbsp;! Mais si l'envie vous d&eacute;mange quand m&ecirc;me, on a cr&eacute;&eacute; une
+          <b class="surligne">cagnotte en ligne</b> : vous y faites un don <b class="surligne">&agrave; notre nom</b> &agrave; l'une des
+          quatre associations ci-dessous. <b>Ce sont des causes qui nous tiennent &agrave; c&oelig;ur</b> &#10084;&#65039;
+        </p>
+
+        <p style="margin:16px 0">
+          <span class="btn or mega-btn">&#128176; Lien de la cagnotte&nbsp;: bient&ocirc;t ici &#10024;</span>
+        </p>
+
+        <div class="tablebox">
+          <table class="invites">
+            <thead><tr><th>Association</th><th>En deux mots</th></tr></thead>
+            <tbody>
+              <tr>
+                <td class="who"><a href="https://actions-traitements.org" target="_blank" rel="noopener">Actions Traitements</a></td>
+                <td>Association de patients : information et accompagnement VIH</td>
+              </tr>
+              <tr>
+                <td class="who"><a href="https://www.acceptess-t.com" target="_blank" rel="noopener">Acceptess-T</a>
+                  <span style="font-weight:normal;font-size:13px">(dons&nbsp;: le FAST)</span></td>
+                <td>Accueil, sant&eacute; et droits des personnes trans</td>
+              </tr>
+              <tr>
+                <td class="who"><a href="https://www.ardhis.org" target="_blank" rel="noopener">Ardhis</a></td>
+                <td>Droits des personnes LGBTQI+ &agrave; l'immigration et au s&eacute;jour</td>
+              </tr>
+              <tr>
+                <td class="who"><a href="https://splann.org" target="_blank" rel="noopener">Splann&nbsp;!</a></td>
+                <td>M&eacute;dia d'enqu&ecirc;te ind&eacute;pendant et sans but lucratif, en Bretagne</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <img class="flamme flamme-miroir" src="flammes.gif" alt="" aria-hidden="true">
+    </div>
+  </section>
 
   <!-- ===================== PROGRAMME ===================== -->
   <section id="programme" class="panneau">
@@ -343,49 +461,6 @@
         <p>&#128222; <a href="tel:+33781833652">07 81 83 36 52</a></p>
       </div>
     </div>
-  </section>
-
-  <!-- ===================== CADEAU / CAGNOTTE SOLIDAIRE ===================== -->
-  <section id="cadeau" class="panneau" style="border-color:var(--vert);box-shadow:6px 6px 0 rgba(46,125,50,.35)">
-    <h2 style="color:var(--vert)">&#127873; Un cadeau ? &#127873;</h2>
-    <p style="font-size:17px">
-      Votre présence suffit largement&nbsp;! Mais si l'envie vous démange quand même, on a créé une
-      <b>cagnotte en ligne</b> : vous y faites un don <b>à notre nom</b> à l'une des quatre associations
-      ci-dessous. Ce sont des causes qui nous tiennent à cœur &#10084;&#65039;
-    </p>
-
-    <p style="margin:14px 0">
-      <span class="btn vert" style="opacity:.6;cursor:default">&#128176; Lien de la cagnotte&nbsp;: bientôt ici &#10024;</span>
-    </p>
-
-    <div class="tablebox">
-      <table class="invites">
-        <thead><tr><th>Association</th><th>En deux mots</th></tr></thead>
-        <tbody>
-          <tr>
-            <td class="who"><a href="https://actions-traitements.org" target="_blank" rel="noopener">Actions Traitements</a></td>
-            <td>Association de patients : information et accompagnement VIH</td>
-          </tr>
-          <tr>
-            <td class="who"><a href="https://www.acceptess-t.com" target="_blank" rel="noopener">Acceptess-T</a></td>
-            <td>Santé, droits et dignité des personnes trans</td>
-          </tr>
-          <tr>
-            <td class="who"><a href="https://www.ardhis.org" target="_blank" rel="noopener">Ardhis</a></td>
-            <td>Droits des personnes LGBTQI+ à l'immigration et au séjour</td>
-          </tr>
-          <tr>
-            <td class="who"><a href="https://splann.org" target="_blank" rel="noopener">Splann&nbsp;!</a></td>
-            <td>Média d'enquête indépendant et sans but lucratif, en Bretagne</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <p style="font-size:15px;margin-top:14px">
-      &#129323; Et cerise sur le gâteau&nbsp;: avec le reçu fiscal, le fisc participe au cadeau.
-      Vous nous offrez quelque chose <i>et</i> vous payez moins d'impôts. On a vérifié, c'est légal.
-    </p>
   </section>
 
   <!-- ===================== LIVRE D'OR ===================== -->
