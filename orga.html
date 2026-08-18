@@ -46,7 +46,9 @@
   h1{margin:0;font-size:22px;letter-spacing:.5px}
   h1 small{display:block;font-size:13px;font-weight:normal;color:var(--txt2);margin-top:3px}
   .hdr-row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between}
-  .compte{font-size:13px;color:var(--or);font-weight:600;white-space:nowrap}
+  /* chiffres tabulaires : sinon le décompte tremble à chaque seconde */
+  .compte{font-size:13px;color:var(--or);font-weight:600;white-space:nowrap;
+          font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
 
   .barre{height:10px;background:var(--barre-vide);border-radius:6px;overflow:hidden;margin-top:12px;border:1px solid var(--ligne)}
   .barre i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--rose),var(--or-vif));transition:width .25s}
@@ -698,16 +700,32 @@ tirer(false);
 setInterval(()=>{ if(!enVol && Date.now()-dernierePoussee > 5000) tirer(false); }, 60000);
 window.addEventListener("online", ()=>{ pousser(); });
 
-/* ---------- compte à rebours ---------- */
+/* ---------- décompte jusqu'à la cérémonie ---------- */
 const JOUR_J = new Date("2026-08-29T18:00:00+02:00");
+const zoneCompte = document.getElementById("compte");
+const deuxChiffres = n => String(n).padStart(2,"0");
+
 function rebours(){
   const d = JOUR_J - new Date();
-  const c = document.getElementById("compte");
-  if(d<=0){ c.textContent="C'est aujourd'hui ou c'est passé 🎉"; return; }
-  const j = Math.floor(d/86400000), h = Math.floor(d/3600000)%24;
-  c.textContent = "J−"+j+" ("+j+" jours "+h+" h avant la cérémonie)";
+  if(d <= 0){
+    /* pendant la fête puis après : on arrête de compter à rebours */
+    const passe = -d;
+    zoneCompte.textContent = passe < 12*3600000
+      ? "🎉 C'EST MAINTENANT 🎉"
+      : "🎉 C'était il y a "+Math.floor(passe/86400000)+" jours";
+    return false;
+  }
+  const j = Math.floor(d/86400000);
+  const h = Math.floor(d/3600000)%24;
+  const m = Math.floor(d/60000)%60;
+  const s = Math.floor(d/1000)%60;
+  zoneCompte.textContent = "J−"+j+" ("+j+" j "+deuxChiffres(h)+" h "
+    + deuxChiffres(m)+" min "+deuxChiffres(s)+" s)";
+  return true;
 }
-rebours(); setInterval(rebours, 60000);
+
+rebours();
+const battement = setInterval(()=>{ if(!rebours()) clearInterval(battement); }, 1000);
 
 rendre();
 

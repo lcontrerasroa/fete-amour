@@ -529,7 +529,32 @@
     }
     var cb = 'gbCb_' + Date.now();
     var s = document.createElement('script');
+    var fini = false;
+
+    // Sans ce garde-fou, un script tiers bloque (extension, reseau, filtrage DNS)
+    // et la page reste sur "Chargement des messages..." indefiniment.
+    function echec(){
+      if (fini) return; fini = true;
+      clearTimeout(secu);
+      document.getElementById('gb-list').innerHTML =
+        '<p class="gb-loading">Impossible de charger les messages &#128533;<br>' +
+        'Un bloqueur de pub ou une extension emp&ecirc;che peut-&ecirc;tre le chargement.<br>' +
+        '<a href="#livredor" id="gb-retry">&#128260; R&eacute;essayer</a></p>';
+      var r = document.getElementById('gb-retry');
+      if (r) r.addEventListener('click', function(ev){
+        ev.preventDefault();
+        document.getElementById('gb-list').innerHTML =
+          '<p class="gb-loading">Chargement des messages&hellip;</p>';
+        gbCharger();
+      });
+      try { delete window[cb]; } catch(e){}
+      s.remove();
+    }
+    var secu = setTimeout(echec, 12000);
+    s.onerror = echec;
+
     window[cb] = function(entries){
+      fini = true; clearTimeout(secu);
       var list = document.getElementById('gb-list');
       if (!entries || !entries.length){
         list.innerHTML = '<p class="gb-loading">Sois le premier &agrave; signer ! &#10024;</p>';
